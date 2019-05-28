@@ -1,3 +1,4 @@
+
 declare module '@capacitor/core' {
   interface PluginRegistry {
     Firebase: FirebasePlugin;
