@@ -36,14 +36,14 @@ public class Firebase: CAPPlugin {
     @objc func setUserProperty(_ call: CAPPluginCall) {
         let name = call.getString("name");
         let value = call.getString("value");
-        if name != nil && value != nil {
+        if name != nil {
             DispatchQueue.main.async {
                 Analytics.setUserProperty(value, forName: name!);
                 call.success();
             }
         } else {
-            call.error("You must pass a User Property name and value")
-            self.bridge.modulePrint(self, "A user property name and value was not passed.")
+            call.error("You must pass a User Property name")
+            self.bridge.modulePrint(self, "A user property name was not passed.")
             return
         }
     }

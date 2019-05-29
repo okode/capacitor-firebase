@@ -87,11 +87,11 @@ public class Firebase extends Plugin {
     public void setUserProperty(PluginCall call) throws JSONException {
         final String name = call.getString("name");
         final String value = call.getString("value");
-        if (name != null && value != null) {
+        if (name != null) {
             firebaseAnalytics.setUserProperty(name, value);
             call.success();
         } else {
-            call.reject("key 'name' or 'value' does not exist");
+            call.reject("key 'name' does not exist");
         }
     }
 
