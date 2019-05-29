@@ -70,8 +70,10 @@ public class Firebase extends Plugin {
                     bundle.putDouble(key, (Double) value);
                 } else if (value instanceof Long) {
                     bundle.putLong(key, (Long) value);
+                } else if (value != null) {
+                    bundle.putString(key, value.toString());
                 } else {
-                    call.reject("Value for key " + key + " not one of (String, Integer, Double, Long)");
+                    call.reject("Value for key " + key + " cannot be NULL");
                 }
             }
         } catch (JSONException e) {
