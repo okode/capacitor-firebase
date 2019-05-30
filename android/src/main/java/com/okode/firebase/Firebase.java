@@ -49,35 +49,32 @@ public class Firebase extends Plugin {
             return;
         }
 
-        if (params == null) {
-            call.reject("key 'parameters' does not exist");
-            return;
-        }
-
         // Preparing event bundle
         Bundle bundle = new Bundle();
-        try {
-            Iterator<String> keys = params.keys();
-            while (keys.hasNext()) {
-                String key = keys.next();
-                Object value = params.get(key);
+        if (params != null) {
+            try {
+                Iterator<String> keys = params.keys();
+                while (keys.hasNext()) {
+                    String key = keys.next();
+                    Object value = params.get(key);
 
-                if (value instanceof String) {
-                    bundle.putString(key, (String) value);
-                } else if (value instanceof Integer) {
-                    bundle.putInt(key, (Integer) value);
-                } else if (value instanceof Double) {
-                    bundle.putDouble(key, (Double) value);
-                } else if (value instanceof Long) {
-                    bundle.putLong(key, (Long) value);
-                } else if (value != null) {
-                    bundle.putString(key, value.toString());
-                } else {
-                    call.reject("Value for key " + key + " cannot be NULL");
+                    if (value instanceof String) {
+                        bundle.putString(key, (String) value);
+                    } else if (value instanceof Integer) {
+                        bundle.putInt(key, (Integer) value);
+                    } else if (value instanceof Double) {
+                        bundle.putDouble(key, (Double) value);
+                    } else if (value instanceof Long) {
+                        bundle.putLong(key, (Long) value);
+                    } else if (value != null) {
+                        bundle.putString(key, value.toString());
+                    } else {
+                        call.reject("Value for key " + key + " cannot be NULL");
+                    }
                 }
+            } catch (JSONException e) {
+                call.reject(e.getLocalizedMessage(), e);
             }
-        } catch (JSONException e) {
-            call.reject(e.getLocalizedMessage(), e);
         }
 
         firebaseAnalytics.logEvent(eventName, bundle);
