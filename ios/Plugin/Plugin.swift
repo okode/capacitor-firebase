@@ -50,16 +50,9 @@ public class Firebase: CAPPlugin {
     
     @objc func setUserId(_ call: CAPPluginCall) {
         let userId = call.getString("userId");
-        
-        if userId != nil {
-            DispatchQueue.main.async {
-                Analytics.setUserID(userId);
-                call.success();
-            }
-        } else {
-            call.error("You must pass a userId.")
-            self.bridge.modulePrint(self, "A userId was not passed.")
-            return
+        DispatchQueue.main.async {
+            Analytics.setUserID(userId);
+            call.success();
         }
     }
     

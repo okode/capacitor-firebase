@@ -100,12 +100,8 @@ public class Firebase extends Plugin {
     @PluginMethod()
     public void setUserId(PluginCall call) {
         final String userId = call.getString("userId");
-        if (userId != null) {
-            firebaseAnalytics.setUserId(userId);
-            call.success();
-        } else {
-            call.reject("key 'userId' does not exist");
-        }
+        firebaseAnalytics.setUserId(userId);
+        call.success();
     }
 
     @PluginMethod()
