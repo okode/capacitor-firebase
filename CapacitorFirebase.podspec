@@ -12,4 +12,5 @@
     s.dependency 'Capacitor'
     s.dependency 'Firebase/Core'
     s.dependency 'Firebase/RemoteConfig'
+    s.static_framework = true
   end
