@@ -96,7 +96,8 @@ public class Firebase: CAPPlugin {
         let key = call.getString("key");
         if key != nil {
             let configValue = self.remoteConfig?.configValue(forKey: key!);
-            call.resolve([ "value": configValue != nil ? configValue!: NSNull() ]);
+            let configValueAsString = configValue != nil ? configValue!.stringValue : nil;
+            call.resolve([ "value": configValueAsString != nil ? configValueAsString!: NSNull() ]);
         } else {
             call.error("You must pass 'key'")
             self.bridge.modulePrint(self, "You must pass 'key'")
