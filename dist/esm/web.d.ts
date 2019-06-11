@@ -20,7 +20,9 @@ export declare class FirebaseWeb extends WebPlugin implements FirebasePlugin {
     activateFetched(): Promise<{
         activated: boolean;
     }>;
-    fetch(): Promise<void>;
+    fetch(options: {
+        cache?: number;
+    }): Promise<void>;
     getRemoteConfigValue(options: {
         key: string;
     }): Promise<{

@@ -34,7 +34,8 @@ export class FirebaseWeb extends WebPlugin implements FirebasePlugin {
     throw new Error('Method not implemented.');
   }
 
-  fetch(): Promise<void> {
+  fetch(options: { cache?: number }): Promise<void> {
+    console.log(options);
     throw new Error('Method not implemented.');
   }
 

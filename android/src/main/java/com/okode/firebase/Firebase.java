@@ -11,6 +11,7 @@ import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigValue;
@@ -136,16 +137,28 @@ public class Firebase extends Plugin {
 
     @PluginMethod()
     public void fetch(final PluginCall call) {
-        FirebaseRemoteConfig.getInstance().fetch()
-            .addOnSuccessListener(new OnSuccessListener<Void>() {
+        JSObject callData = call.getData();
+
+        Long cacheTime;
+        try {
+            cacheTime = callData != null ? callData.getLong("cache") : null;
+        } catch (JSONException e) {
+            cacheTime = null;
+        }
+
+        Task<Void> fetchTask = cacheTime != null ?
+                FirebaseRemoteConfig.getInstance().fetch(cacheTime)
+                : FirebaseRemoteConfig.getInstance().fetch();
+
+        fetchTask.addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                    call.success();
+                call.success();
                 }
             }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    call.error("Error fetching remote config");
+        @Override
+        public void onFailure(@NonNull Exception e) {
+                call.error("Error fetching remote config");
                 }
             });
     }

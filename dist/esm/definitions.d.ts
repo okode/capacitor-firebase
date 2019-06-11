@@ -22,7 +22,9 @@ export interface FirebasePlugin {
     activateFetched(): Promise<{
         activated: boolean;
     }>;
-    fetch(): Promise<void>;
+    fetch(options: {
+        cache?: number;
+    }): Promise<void>;
     getRemoteConfigValue(options: {
         key: string;
     }): Promise<{

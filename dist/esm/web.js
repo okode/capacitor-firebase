@@ -25,7 +25,8 @@ export class FirebaseWeb extends WebPlugin {
     activateFetched() {
         throw new Error('Method not implemented.');
     }
-    fetch() {
+    fetch(options) {
+        console.log(options);
         throw new Error('Method not implemented.');
     }
     getRemoteConfigValue(options) {

@@ -11,6 +11,7 @@ export interface FirebasePlugin {
   setUserId(options: { userId: string }): Promise<void>;
   setScreenName(options: { screenName: string, screenClassOverride?: string }): Promise<void>;
   activateFetched(): Promise<{activated: boolean}>;
-  fetch(): Promise<void>;
+  // Cache time in seconds
+  fetch(options: { cache?: number }): Promise<void>;
   getRemoteConfigValue(options: { key: string }): Promise<{value: string}>;
 }
