@@ -6,6 +6,7 @@ target 'Plugin' do
   pod 'Capacitor', :path => '../node_modules/@capacitor/ios'
   pod 'Firebase/Core', '6.1.0'
   pod 'Firebase/RemoteConfig', '6.1.0'
+  pod 'Firebase/Messaging', '6.1.0'
 end
 
 target 'PluginTests' do

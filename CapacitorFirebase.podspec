@@ -12,5 +12,6 @@
     s.dependency 'Capacitor'
     s.dependency 'Firebase/Core', '6.1.0'
     s.dependency 'Firebase/RemoteConfig', '6.1.0'
+    s.dependency 'Firebase/Messaging', '6.1.0'
     s.static_framework = true
   end
