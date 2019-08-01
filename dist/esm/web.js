@@ -33,6 +33,9 @@ export class FirebaseWeb extends WebPlugin {
         console.log(options);
         throw new Error('Method not implemented.');
     }
+    getToken() {
+        throw new Error('Method not implemented.');
+    }
 }
 const Firebase = new FirebaseWeb();
 export { Firebase };

@@ -30,4 +30,7 @@ export interface FirebasePlugin {
     }): Promise<{
         value: string;
     }>;
+    getToken(): Promise<{
+        token: string;
+    }>;
 }

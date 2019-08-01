@@ -28,6 +28,9 @@ export declare class FirebaseWeb extends WebPlugin implements FirebasePlugin {
     }): Promise<{
         value: string;
     }>;
+    getToken(): Promise<{
+        token: string;
+    }>;
 }
 declare const Firebase: FirebaseWeb;
 export { Firebase };
