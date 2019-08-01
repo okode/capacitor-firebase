@@ -11,4 +11,5 @@ CAP_PLUGIN(Firebase, "Firebase",
            CAP_PLUGIN_METHOD(activateFetched, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(fetch, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getRemoteConfigValue, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(getToken, CAPPluginReturnPromise);
 )

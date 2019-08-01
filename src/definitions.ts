@@ -14,4 +14,5 @@ export interface FirebasePlugin {
   // Cache time in seconds
   fetch(options?: { cache?: number }): Promise<void>;
   getRemoteConfigValue(options: { key: string }): Promise<{value: string}>;
+  getToken(): Promise<{token: string}>;
 }

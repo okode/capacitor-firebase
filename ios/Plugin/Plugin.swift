@@ -3,6 +3,7 @@ import Capacitor
 import FirebaseCore
 import FirebaseAnalytics
 import FirebaseRemoteConfig
+import FirebaseInstanceID
 
 @objc(Firebase)
 public class Firebase: CAPPlugin {
@@ -17,6 +18,8 @@ public class Firebase: CAPPlugin {
             remoteConfig = RemoteConfig.remoteConfig();
         }
     }
+    
+    // Firebase Analytics
     
     @objc func logEvent(_ call: CAPPluginCall) {
         let name = call.getString("name");
@@ -71,6 +74,8 @@ public class Firebase: CAPPlugin {
         }
     }
     
+    // Firebase Remote Config
+    
     @objc func activateFetched(_ call: CAPPluginCall) {
         let activated = self.remoteConfig?.activateFetched();
         if activated != nil {
@@ -107,6 +112,18 @@ public class Firebase: CAPPlugin {
         } else {
             call.error("You must pass 'key'")
             self.bridge.modulePrint(self, "You must pass 'key'")
+        }
+    }
+    
+    // Firebase Messaging
+    
+    @objc func getToken(_ call: CAPPluginCall) {
+        InstanceID.instanceID().instanceID { (result, error) in
+            if let error = error {
+                call.error("Cant get token", error)
+            } else if let result = result {
+                call.success([ "token": result.token ])
+            }
         }
     }
 

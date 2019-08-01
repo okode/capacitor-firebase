@@ -44,6 +44,10 @@ export class FirebaseWeb extends WebPlugin implements FirebasePlugin {
     throw new Error('Method not implemented.');
   }
 
+  getToken(): Promise<{ token: string; }> {
+    throw new Error('Method not implemented.');
+  }
+
 }
 
 const Firebase = new FirebaseWeb();
