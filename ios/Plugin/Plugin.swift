@@ -4,9 +4,12 @@ import FirebaseCore
 import FirebaseAnalytics
 import FirebaseRemoteConfig
 import FirebaseInstanceID
+import FirebaseDynamicLinks
 
 @objc(Firebase)
 public class Firebase: CAPPlugin {
+    
+    public static let DynamicLinkNotificationName = "dynamicLinkNotification"
     
     var firebase: FirebaseApp? = nil;
     var remoteConfig: RemoteConfig? = nil;
@@ -17,6 +20,7 @@ public class Firebase: CAPPlugin {
             firebase = FirebaseApp.app()
             remoteConfig = RemoteConfig.remoteConfig();
         }
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleDynamicLink(notification:)), name: Notification.Name(Firebase.DynamicLinkNotificationName), object: nil)
     }
     
     // Firebase Analytics
@@ -125,6 +129,19 @@ public class Firebase: CAPPlugin {
                 call.success([ "token": result.token ])
             }
         }
+    }
+    
+    // Firebase Dynamic Deeplinks
+    
+    @objc private func handleDynamicLink(notification: NSNotification) {
+        guard let dynamicLink = notification.object as? DynamicLink else {
+            return
+        }
+        if (dynamicLink.url == nil) { return }
+        let deeplink = dynamicLink.url!.absoluteString
+        notifyListeners("dynamicDeeplinkOpen", data:[
+            "url": deeplink
+        ])
     }
 
 }

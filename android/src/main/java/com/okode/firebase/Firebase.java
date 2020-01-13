@@ -1,8 +1,11 @@
 package com.okode.firebase;
 
 import android.Manifest;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.getcapacitor.JSObject;
 import com.getcapacitor.NativePlugin;
@@ -14,6 +17,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
@@ -24,6 +29,8 @@ import org.json.JSONObject;
 
 import java.util.Iterator;
 
+import static android.content.ContentValues.TAG;
+
 @NativePlugin(
     permissions = {
         Manifest.permission.ACCESS_NETWORK_STATE,
@@ -33,6 +40,7 @@ import java.util.Iterator;
 )
 public class Firebase extends Plugin {
 
+    private static final String EVENT_DEEPLINK_OPEN = "dynamicDeeplinkOpen";
     private FirebaseAnalytics firebaseAnalytics;
 
     @Override
@@ -196,6 +204,42 @@ public class Firebase extends Plugin {
                 final JSObject res = new JSObject();
                 res.put("token", token);
                 call.success(res);
+                }
+            });
+    }
+
+    /**
+     * Handle ACTION_VIEW intents to store a URL that was used to open the app
+     * @param intent
+     */
+    @Override
+    protected void handleOnNewIntent(Intent intent) {
+        super.handleOnNewIntent(intent);
+
+        FirebaseDynamicLinks.getInstance()
+            .getDynamicLink(intent)
+            .addOnSuccessListener(new OnSuccessListener<PendingDynamicLinkData>() {
+                @Override
+                public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
+                    // Get deep link from result (may be null if no link is found)
+                    Uri deepLink = null;
+                    if (pendingDynamicLinkData != null) {
+                        deepLink = pendingDynamicLinkData.getLink();
+                    }
+
+                    if (deepLink != null) {
+                        final JSObject res = new JSObject();
+                        res.put("url", deepLink.toString());
+                        bridge.triggerWindowJSEvent(EVENT_DEEPLINK_OPEN, res.toString());
+                        // notifyListeners(EVENT_DEEPLINK_OPEN, res, true);
+                    }
+                }
+
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(Exception e) {
+                    Log.w(TAG, "getDynamicLink:onFailure", e);
                 }
             });
     }

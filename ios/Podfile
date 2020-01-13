@@ -7,6 +7,8 @@ target 'Plugin' do
   pod 'Firebase/Core', '6.1.0'
   pod 'Firebase/RemoteConfig', '6.1.0'
   pod 'Firebase/Messaging', '6.1.0'
+  pod 'Firebase/Analytics', '6.1.0'
+  pod 'Firebase/DynamicLinks', '6.1.0'
 end
 
 target 'PluginTests' do

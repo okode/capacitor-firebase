@@ -1,4 +1,6 @@
 
+import { PluginListenerHandle } from "@capacitor/core";
+
 declare module '@capacitor/core' {
   interface PluginRegistry {
     Firebase: FirebasePlugin;
@@ -15,4 +17,9 @@ export interface FirebasePlugin {
   fetch(options?: { cache?: number }): Promise<void>;
   getRemoteConfigValue(options: { key: string }): Promise<{value: string}>;
   getToken(): Promise<{token: string}>;
+  addListener(eventName: 'dynamicDeeplinkOpen', listenerFunc: (action: DynamicDeeplinkOpen) => void): PluginListenerHandle;
+}
+
+export interface DynamicDeeplinkOpen {
+  url: string;
 }
