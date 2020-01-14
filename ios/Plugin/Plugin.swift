@@ -141,7 +141,7 @@ public class Firebase: CAPPlugin {
         let deeplink = dynamicLink.url!.absoluteString
         notifyListeners("dynamicDeeplinkOpen", data:[
             "url": deeplink
-        ])
+        ], retainUntilConsumed: true)
     }
 
 }

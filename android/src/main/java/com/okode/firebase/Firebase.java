@@ -230,8 +230,7 @@ public class Firebase extends Plugin {
                     if (deepLink != null) {
                         final JSObject res = new JSObject();
                         res.put("url", deepLink.toString());
-                        bridge.triggerWindowJSEvent(EVENT_DEEPLINK_OPEN, res.toString());
-                        // notifyListeners(EVENT_DEEPLINK_OPEN, res, true);
+                        notifyListeners(EVENT_DEEPLINK_OPEN, res, true);
                     }
                 }
 
