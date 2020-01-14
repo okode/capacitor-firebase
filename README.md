@@ -32,7 +32,6 @@ When users open a Dynamic Link with a deep link to the scheme and host you speci
 
 - Add these imports in your AppDelegate
 ```
-import FirebaseDynamicLinks
 import CapacitorFirebase
 ```
 
@@ -40,19 +39,12 @@ import CapacitorFirebase
 ```
 func application(_ application: UIApplication, continue userActivity: NSUserActivity,
                  restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
-    let handled = DynamicLinks.dynamicLinks().handleUniversalLink(userActivity.webpageURL!) { (dynamicLink, error) in
-        NotificationCenter.default.post(name: Notification.Name(Firebase.DynamicLinkNotificationName), object: dynamicLink)
-    }
+    Firebase.handleContinueActivity(userActivity, restorationHandler)
     ...
 }
 
 func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-  if let dynamicLink = DynamicLinks.dynamicLinks().dynamicLink(fromCustomSchemeURL: url) {
-      // Handle the deep link. For example, show the deep-linked content or
-      // apply a promotional offer to the user's account.
-      NotificationCenter.default.post(name: Notification.Name(Firebase.DynamicLinkNotificationName), object: dynamicLink)
-      return true
-  }
+  Firebase.handleOpenUrl(url, options)
   ...
 }
 

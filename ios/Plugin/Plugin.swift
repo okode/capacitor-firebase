@@ -9,7 +9,7 @@ import FirebaseDynamicLinks
 @objc(Firebase)
 public class Firebase: CAPPlugin {
     
-    public static let DynamicLinkNotificationName = "dynamicLinkNotification"
+    private static let DynamicLinkNotificationName = "dynamicLinkNotification"
     
     var firebase: FirebaseApp? = nil;
     var remoteConfig: RemoteConfig? = nil;
@@ -133,7 +133,22 @@ public class Firebase: CAPPlugin {
     
     // Firebase Dynamic Deeplinks
     
-    @objc private func handleDynamicLink(notification: NSNotification) {
+    @objc public static func handleOpenUrl(_ url: URL, _ options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
+      if let dynamicLink = DynamicLinks.dynamicLinks().dynamicLink(fromCustomSchemeURL: url) {
+          NotificationCenter.default.post(name: Notification.Name(Firebase.DynamicLinkNotificationName), object: dynamicLink)
+          return true
+      }
+      return false
+    }
+    
+    @objc public static func handleContinueActivity(_ userActivity: NSUserActivity, _ restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+        let handled = DynamicLinks.dynamicLinks().handleUniversalLink(userActivity.webpageURL!) { (dynamicLink, error) in
+            NotificationCenter.default.post(name: Notification.Name(Firebase.DynamicLinkNotificationName), object: dynamicLink)
+        }
+        return handled
+    }
+
+    @objc public func handleDynamicLink(notification: NSNotification) {
         guard let dynamicLink = notification.object as? DynamicLink else {
             return
         }
