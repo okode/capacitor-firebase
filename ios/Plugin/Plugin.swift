@@ -142,6 +142,7 @@ public class Firebase: CAPPlugin {
     }
     
     @objc public static func handleContinueActivity(_ userActivity: NSUserActivity, _ restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+        if (userActivity.webpageURL == nil) { return false }
         let handled = DynamicLinks.dynamicLinks().handleUniversalLink(userActivity.webpageURL!) { (dynamicLink, error) in
             NotificationCenter.default.post(name: Notification.Name(Firebase.DynamicLinkNotificationName), object: dynamicLink)
         }
