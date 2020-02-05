@@ -9,6 +9,9 @@ target 'Plugin' do
   pod 'Firebase/Messaging', '6.1.0'
   pod 'Firebase/Analytics', '6.1.0'
   pod 'Firebase/DynamicLinks', '6.1.0'
+  # Crashlytics config for Firebase
+  pod 'Fabric', '1.10.2'
+  pod 'Crashlytics', '3.14.0'
 end
 
 target 'PluginTests' do
