@@ -5,7 +5,7 @@ export class FirebaseWeb extends WebPlugin implements FirebasePlugin {
 
   constructor() {
     super({
-      name: 'FirebasePlugin',
+      name: 'Firebase',
       platforms: ['web']
     });
   }

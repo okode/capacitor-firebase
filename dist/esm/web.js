@@ -2,7 +2,7 @@ import { WebPlugin } from '@capacitor/core';
 export class FirebaseWeb extends WebPlugin {
     constructor() {
         super({
-            name: 'FirebasePlugin',
+            name: 'Firebase',
             platforms: ['web']
         });
     }
