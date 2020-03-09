@@ -8,33 +8,33 @@ export class FirebaseWeb extends WebPlugin {
     }
     logEvent(options) {
         console.log(options);
-        throw new Error('Method not implemented.');
+        return Promise.reject('Method not implemented.');
     }
     setUserProperty(options) {
         console.log(options);
-        throw new Error('Method not implemented.');
+        return Promise.reject('Method not implemented.');
     }
     setUserId(options) {
         console.log(options);
-        throw new Error('Method not implemented.');
+        return Promise.reject('Method not implemented.');
     }
     setScreenName(options) {
         console.log(options);
-        throw new Error('Method not implemented.');
+        return Promise.reject('Method not implemented.');
     }
     activateFetched() {
-        throw new Error('Method not implemented.');
+        return Promise.reject('Method not implemented.');
     }
     fetch(options) {
         console.log(options);
-        throw new Error('Method not implemented.');
+        return Promise.reject('Method not implemented.');
     }
     getRemoteConfigValue(options) {
         console.log(options);
-        throw new Error('Method not implemented.');
+        return Promise.reject('Method not implemented.');
     }
     getToken() {
-        throw new Error('Method not implemented.');
+        return Promise.reject('Method not implemented.');
     }
 }
 const Firebase = new FirebaseWeb();
