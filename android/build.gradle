@@ -1,24 +1,34 @@
+ext {
+    junitVersion =  project.hasProperty('junitVersion') ? rootProject.ext.junitVersion : '4.12'
+    androidxJunitVersion =  project.hasProperty('androidxJunitVersion') ? rootProject.ext.androidxJunitVersion : '1.1.1'
+    androidxEspressoCoreVersion =  project.hasProperty('androidxEspressoCoreVersion') ? rootProject.ext.androidxEspressoCoreVersion : '3.2.0'
+    firebaseCoreVersion =  project.hasProperty('firebaseCoreVersion') ? rootProject.ext.firebaseCoreVersion : '16.0.9'
+    firebaseConfigVersion =  project.hasProperty('firebaseConfigVersion') ? rootProject.ext.firebaseConfigVersion : '17.0.0'
+    firebaseDynamicLinksVersion =  project.hasProperty('firebaseDynamicLinksVersion') ? rootProject.ext.firebaseDynamicLinksVersion : '17.0.0'
+    firebaseAnalyticsVersion =  project.hasProperty('firebaseAnalyticsVersion') ? rootProject.ext.firebaseAnalyticsVersion : '16.0.5'
+}
+
 buildscript {
     repositories {
-        jcenter()
         google()
+        jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.1'
-        classpath 'com.google.gms:google-services:4.2.0'
+        classpath 'com.android.tools.build:gradle:3.6.1'
+        classpath 'com.google.gms:google-services:4.3.3'
     }
 }
 
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion project.hasProperty('compileSdkVersion') ? rootProject.ext.compileSdkVersion : 29
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 28
+        minSdkVersion project.hasProperty('minSdkVersion') ? rootProject.ext.minSdkVersion : 21
+        targetSdkVersion project.hasProperty('targetSdkVersion') ? rootProject.ext.targetSdkVersion : 29
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -41,13 +51,11 @@ repositories {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':capacitor-android')
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation 'com.google.firebase:firebase-core:16.0.9'
-    implementation 'com.google.firebase:firebase-config:17.0.0'
-    implementation 'com.google.firebase:firebase-dynamic-links:17.0.0'
-    implementation 'com.google.firebase:firebase-analytics:16.0.5'
-    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation "com.google.firebase:firebase-core:$firebaseCoreVersion"
+    implementation "com.google.firebase:firebase-config:$firebaseConfigVersion"
+    implementation "com.google.firebase:firebase-dynamic-links:$firebaseDynamicLinksVersion"
+    implementation "com.google.firebase:firebase-analytics:$firebaseAnalyticsVersion"
+    testImplementation "junit:junit:$junitVersion"
+    androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
 }
-
