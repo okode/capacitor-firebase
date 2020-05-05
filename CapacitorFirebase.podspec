@@ -14,5 +14,6 @@
     s.dependency 'Firebase/Messaging', '6.23.0'
     s.dependency 'Firebase/Analytics', '6.23.0'
     s.dependency 'Firebase/DynamicLinks', '6.23.0'
+    s.dependency 'Firebase/Crashlytics', '6.23.0'
     s.static_framework = true
   end

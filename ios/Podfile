@@ -9,6 +9,7 @@ def capacitor_pods
   pod 'Firebase/Messaging', '6.23.0'
   pod 'Firebase/Analytics', '6.23.0'
   pod 'Firebase/DynamicLinks', '6.23.0'
+  pod 'Firebase/Crashlytics', '6.23.0'
 end
 
 target 'Plugin' do

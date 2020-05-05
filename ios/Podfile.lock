@@ -9,6 +9,9 @@ PODS:
     - FirebaseAnalytics (= 6.4.2)
   - Firebase/CoreOnly (6.23.0):
     - FirebaseCore (= 6.6.7)
+  - Firebase/Crashlytics (6.23.0):
+    - Firebase/CoreOnly
+    - FirebaseCrashlytics (~> 4.0.0)
   - Firebase/DynamicLinks (6.23.0):
     - Firebase/CoreOnly
     - FirebaseDynamicLinks (~> 4.0.8)
@@ -44,6 +47,14 @@ PODS:
     - GoogleUtilities/Logger (~> 6.5)
     - nanopb (~> 0.3.901)
   - FirebaseCoreDiagnosticsInterop (1.2.0)
+  - FirebaseCrashlytics (4.0.0):
+    - FirebaseAnalyticsInterop (~> 1.2)
+    - FirebaseCore (~> 6.6)
+    - FirebaseInstallations (~> 1.1)
+    - GoogleDataTransport (~> 6.0)
+    - GoogleDataTransportCCTSupport (~> 3.0)
+    - nanopb (~> 0.3.901)
+    - PromisesObjC (~> 1.2)
   - FirebaseDynamicLinks (4.0.8):
     - FirebaseAnalyticsInterop (~> 1.3)
     - FirebaseCore (~> 6.2)
@@ -115,6 +126,7 @@ DEPENDENCIES:
   - "Capacitor (from `../node_modules/@capacitor/ios`)"
   - "CapacitorCordova (from `../node_modules/@capacitor/ios`)"
   - Firebase/Analytics (= 6.23.0)
+  - Firebase/Crashlytics (= 6.23.0)
   - Firebase/DynamicLinks (= 6.23.0)
   - Firebase/Messaging (= 6.23.0)
   - Firebase/RemoteConfig (= 6.23.0)
@@ -128,6 +140,7 @@ SPEC REPOS:
     - FirebaseCore
     - FirebaseCoreDiagnostics
     - FirebaseCoreDiagnosticsInterop
+    - FirebaseCrashlytics
     - FirebaseDynamicLinks
     - FirebaseInstallations
     - FirebaseInstanceID
@@ -157,6 +170,7 @@ SPEC CHECKSUMS:
   FirebaseCore: a2788a0d5f6c1dff17b8f79b4a73654a8d4bfdbd
   FirebaseCoreDiagnostics: b59c024493a409f8aecba02c99928d0d8431d159
   FirebaseCoreDiagnosticsInterop: 296e2c5f5314500a850ad0b83e9e7c10b011a850
+  FirebaseCrashlytics: 941608d2a3475b48fb7010b998703d07696b8db1
   FirebaseDynamicLinks: 417dc6dbb6013233c77558290d73296f429656a6
   FirebaseInstallations: 2119fb3e46b0a88bfdbf12562f855ee3252462fa
   FirebaseInstanceID: cef67c4967c7cecb56ea65d8acbb4834825c587b
@@ -170,6 +184,6 @@ SPEC CHECKSUMS:
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
   Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7
 
-PODFILE CHECKSUM: 9e9198cea020d0d73df82a68392a85d9568c9a4f
+PODFILE CHECKSUM: 9af9f8b6ad1b5d40bd39f1f6a8d008492208098e
 
 COCOAPODS: 1.7.3
