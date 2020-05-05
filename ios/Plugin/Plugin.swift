@@ -81,15 +81,16 @@ public class Firebase: CAPPlugin {
     // Firebase Remote Config
     
     @objc func activateFetched(_ call: CAPPluginCall) {
-        let activated = self.remoteConfig?.activateFetched();
-        if activated != nil {
-            call.resolve([ "activated": activated! ]);
-        } else {
-            call.error("Error activating fetched remote config");
-            self.bridge.modulePrint(self, "Error activating fetched remote config")
-        }
+        self.remoteConfig?.activate(completionHandler: { (error) in
+            if error == nil {
+                call.resolve([ "activated": true ])
+            } else {
+                call.error("Error activating fetched remote config", error)
+                self.bridge.modulePrint(self, error!.localizedDescription)
+            }
+        })
     }
-    
+
     @objc func fetch(_ call: CAPPluginCall) {
         let completionHandler: RemoteConfigFetchCompletion =  { (status, error) in
             if status == .success {
