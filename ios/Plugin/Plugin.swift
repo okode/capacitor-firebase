@@ -3,8 +3,8 @@ import Capacitor
 import FirebaseCore
 import FirebaseAnalytics
 import FirebaseRemoteConfig
-import FirebaseInstanceID
 import FirebaseDynamicLinks
+import FirebaseMessaging
 
 @objc(Firebase)
 public class Firebase: CAPPlugin {
@@ -68,8 +68,12 @@ public class Firebase: CAPPlugin {
         let screenClassOverride = call.getString("screenClassOverride");
         if screenName != nil {
             DispatchQueue.main.async {
-                Analytics.setScreenName(screenName, screenClass: screenClassOverride);
-                call.success();
+                var parameters = [AnalyticsParameterScreenName: screenName!]
+                if (screenClassOverride != nil) {
+                    parameters.updateValue(screenClassOverride!, forKey: AnalyticsParameterScreenClass)
+                }
+                Analytics.logEvent(AnalyticsEventScreenView, parameters: parameters);
+                call.success()
             }
         } else {
             call.error("You must pass a screen name")
@@ -81,7 +85,7 @@ public class Firebase: CAPPlugin {
     // Firebase Remote Config
     
     @objc func activateFetched(_ call: CAPPluginCall) {
-        self.remoteConfig?.activate(completionHandler: { (error) in
+        self.remoteConfig?.activate(completion: { (changed, error) in
             if error == nil {
                 call.resolve([ "activated": true ])
             } else {
@@ -123,11 +127,11 @@ public class Firebase: CAPPlugin {
     // Firebase Messaging
     
     @objc func getToken(_ call: CAPPluginCall) {
-        InstanceID.instanceID().instanceID { (result, error) in
+        Messaging.messaging().token { (token, error) in
             if let error = error {
                 call.error("Cant get token", error)
-            } else if let result = result {
-                call.success([ "token": result.token ])
+            } else if let token = token {
+                call.success([ "token": token ])
             }
         }
     }
