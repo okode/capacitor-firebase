@@ -3,10 +3,11 @@ ext {
     androidxJunitVersion =  project.hasProperty('androidxJunitVersion') ? rootProject.ext.androidxJunitVersion : '1.1.1'
     androidxEspressoCoreVersion =  project.hasProperty('androidxEspressoCoreVersion') ? rootProject.ext.androidxEspressoCoreVersion : '3.2.0'
     androidxAppCompatVersion = project.hasProperty('androidxAppCompatVersion') ? rootProject.ext.androidxAppCompatVersion : '1.1.0'
-    firebaseConfigVersion =  project.hasProperty('firebaseConfigVersion') ? rootProject.ext.firebaseConfigVersion : '19.1.4'
-    firebaseDynamicLinksVersion =  project.hasProperty('firebaseDynamicLinksVersion') ? rootProject.ext.firebaseDynamicLinksVersion : '19.1.0'
-    firebaseAnalyticsVersion =  project.hasProperty('firebaseAnalyticsVersion') ? rootProject.ext.firebaseAnalyticsVersion : '17.4.0'
-    firebaseCrashlyticsVersion =  project.hasProperty('firebaseCrashlyticsVersion') ? rootProject.ext.firebaseCrashlyticsVersion : '17.0.0'
+    firebaseConfigVersion =  project.hasProperty('firebaseConfigVersion') ? rootProject.ext.firebaseConfigVersion : '20.0.2'
+    firebaseDynamicLinksVersion =  project.hasProperty('firebaseDynamicLinksVersion') ? rootProject.ext.firebaseDynamicLinksVersion : '19.1.1'
+    firebaseAnalyticsVersion =  project.hasProperty('firebaseAnalyticsVersion') ? rootProject.ext.firebaseAnalyticsVersion : '18.0.0'
+    firebaseCrashlyticsVersion =  project.hasProperty('firebaseCrashlyticsVersion') ? rootProject.ext.firebaseCrashlyticsVersion : '17.3.0'
+    firebaseMessagingVersion =  project.hasProperty('firebaseMessagingVersion') ? rootProject.ext.firebaseMessagingVersion : '21.0.0'
 }
 
 buildscript {
@@ -57,6 +58,7 @@ dependencies {
     implementation "com.google.firebase:firebase-dynamic-links:$firebaseDynamicLinksVersion"
     implementation "com.google.firebase:firebase-analytics:$firebaseAnalyticsVersion"
     implementation "com.google.firebase:firebase-crashlytics:$firebaseCrashlyticsVersion"
+    implementation "com.google.firebase:firebase-messaging:$firebaseMessagingVersion"
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
