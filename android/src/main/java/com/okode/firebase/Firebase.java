@@ -20,8 +20,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigValue;
 
@@ -96,7 +95,7 @@ public class Firebase extends Plugin {
 
 
     @PluginMethod()
-    public void setUserProperty(PluginCall call) throws JSONException {
+    public void setUserProperty(PluginCall call) {
         final String name = call.getString("name");
         final String value = call.getString("value");
         if (name != null) {
@@ -121,7 +120,10 @@ public class Firebase extends Plugin {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                firebaseAnalytics.setCurrentScreen(getActivity(), value, overrideName);
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.SCREEN_NAME, value);
+                bundle.putString(FirebaseAnalytics.Param.SCREEN_CLASS, overrideName);
+                firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, bundle);
             }
         });
         call.success();
@@ -135,14 +137,14 @@ public class Firebase extends Plugin {
             .addOnSuccessListener(new OnSuccessListener<Boolean>() {
                 @Override
                 public void onSuccess(Boolean activated) {
-                    final JSObject res = new JSObject();
-                    res.put("activated", activated);
-                    call.success(res);
+                final JSObject res = new JSObject();
+                res.put("activated", activated);
+                call.success(res);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    call.error("Error activating fetched remote config");
+                call.error("Error activating fetched remote config");
                 }
             });
     }
@@ -165,12 +167,12 @@ public class Firebase extends Plugin {
         fetchTask.addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                call.success();
+                    call.success();
                 }
             }).addOnFailureListener(new OnFailureListener() {
         @Override
         public void onFailure(@NonNull Exception e) {
-                call.error("Error fetching remote config");
+                    call.error("Error fetching remote config");
                 }
             });
     }
@@ -192,26 +194,23 @@ public class Firebase extends Plugin {
 
     @PluginMethod()
     public void getToken(final PluginCall call) {
-        FirebaseInstanceId.getInstance().getInstanceId()
-            .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                @Override
-                public void onComplete(@NonNull Task<InstanceIdResult> task) {
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
                 if (!task.isSuccessful()) {
                     call.error("Cant get token", task.getException());
                     return;
                 }
-
-                String token = task.getResult().getToken();
+                String token = task.getResult();
                 final JSObject res = new JSObject();
                 res.put("token", token);
                 call.success(res);
-                }
-            });
+            }
+        });
     }
 
     /**
      * Handle ACTION_VIEW intents to store a URL that was used to open the app
-     * @param intent
      */
     @Override
     protected void handleOnNewIntent(Intent intent) {
@@ -222,23 +221,23 @@ public class Firebase extends Plugin {
             .addOnSuccessListener(new OnSuccessListener<PendingDynamicLinkData>() {
                 @Override
                 public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
-                    // Get deep link from result (may be null if no link is found)
-                    Uri deepLink = null;
-                    if (pendingDynamicLinkData != null) {
-                        deepLink = pendingDynamicLinkData.getLink();
-                    }
+                // Get deep link from result (may be null if no link is found)
+                Uri deepLink = null;
+                if (pendingDynamicLinkData != null) {
+                    deepLink = pendingDynamicLinkData.getLink();
+                }
 
-                    if (deepLink != null) {
-                        final JSObject res = new JSObject();
-                        res.put("url", deepLink.toString());
-                        notifyListeners(EVENT_DEEPLINK_OPEN, res, true);
-                    }
+                if (deepLink != null) {
+                    final JSObject res = new JSObject();
+                    res.put("url", deepLink.toString());
+                    notifyListeners(EVENT_DEEPLINK_OPEN, res, true);
+                }
                 }
 
             })
             .addOnFailureListener(new OnFailureListener() {
                 @Override
-                public void onFailure(Exception e) {
+                public void onFailure(@NonNull Exception e) {
                     Log.w(TAG, "getDynamicLink:onFailure", e);
                 }
             });
