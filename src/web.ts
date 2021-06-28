@@ -1,14 +1,8 @@
 import { WebPlugin } from '@capacitor/core';
-import { FirebasePlugin } from './definitions';
+
+import type { FirebasePlugin } from './definitions';
 
 export class FirebaseWeb extends WebPlugin implements FirebasePlugin {
-
-  constructor() {
-    super({
-      name: 'Firebase',
-      platforms: ['web']
-    });
-  }
 
   logEvent(options: { name: string; parameters: object; }): Promise<void> {
     console.log(options);
@@ -49,10 +43,3 @@ export class FirebaseWeb extends WebPlugin implements FirebasePlugin {
   }
 
 }
-
-const Firebase = new FirebaseWeb();
-
-export { Firebase };
-
-import { registerWebPlugin } from '@capacitor/core';
-registerWebPlugin(Firebase);

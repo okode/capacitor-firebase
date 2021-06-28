@@ -1,11 +1,5 @@
 import { WebPlugin } from '@capacitor/core';
 export class FirebaseWeb extends WebPlugin {
-    constructor() {
-        super({
-            name: 'Firebase',
-            platforms: ['web']
-        });
-    }
     logEvent(options) {
         console.log(options);
         return Promise.reject('Method not implemented.');
@@ -37,8 +31,4 @@ export class FirebaseWeb extends WebPlugin {
         return Promise.reject('Method not implemented.');
     }
 }
-const Firebase = new FirebaseWeb();
-export { Firebase };
-import { registerWebPlugin } from '@capacitor/core';
-registerWebPlugin(Firebase);
 //# sourceMappingURL=web.js.map

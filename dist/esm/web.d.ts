@@ -1,7 +1,6 @@
 import { WebPlugin } from '@capacitor/core';
-import { FirebasePlugin } from './definitions';
+import type { FirebasePlugin } from './definitions';
 export declare class FirebaseWeb extends WebPlugin implements FirebasePlugin {
-    constructor();
     logEvent(options: {
         name: string;
         parameters: object;
@@ -32,5 +31,3 @@ export declare class FirebaseWeb extends WebPlugin implements FirebasePlugin {
         token: string;
     }>;
 }
-declare const Firebase: FirebaseWeb;
-export { Firebase };
