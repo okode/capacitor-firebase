@@ -11,7 +11,7 @@
     "android/build.gradle",
     "dist/",
     "ios/Plugin/",
-    "CapacitorExitAppIos.podspec"
+    "CapacitorFirebase.podspec"
   ],
   "author": "OKode",
   "license": "MIT",
