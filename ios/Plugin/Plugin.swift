@@ -31,11 +31,11 @@ public class Firebase: CAPPlugin {
         if name != nil {
             DispatchQueue.main.async {
                 Analytics.logEvent(name!, parameters: parameters);
-                call.success();
+                call.resolve();
             }
         } else {
-            call.error("You must pass an event name.")
-            self.bridge.modulePrint(self, "An event name and value was not passed.")
+            call.reject("You must pass an event name.")
+            CAPLog.print("An event name and value was not passed.")
             return
         }
     }
@@ -46,11 +46,11 @@ public class Firebase: CAPPlugin {
         if name != nil {
             DispatchQueue.main.async {
                 Analytics.setUserProperty(value, forName: name!);
-                call.success();
+                call.resolve();
             }
         } else {
-            call.error("You must pass a User Property name")
-            self.bridge.modulePrint(self, "A user property name was not passed.")
+            call.reject("You must pass a User Property name")
+            CAPLog.print("A user property name was not passed.")
             return
         }
     }
@@ -59,7 +59,7 @@ public class Firebase: CAPPlugin {
         let userId = call.getString("userId");
         DispatchQueue.main.async {
             Analytics.setUserID(userId);
-            call.success();
+            call.resolve();
         }
     }
     
@@ -73,11 +73,11 @@ public class Firebase: CAPPlugin {
                     parameters.updateValue(screenClassOverride!, forKey: AnalyticsParameterScreenClass)
                 }
                 Analytics.logEvent(AnalyticsEventScreenView, parameters: parameters);
-                call.success()
+                call.resolve()
             }
         } else {
-            call.error("You must pass a screen name")
-            self.bridge.modulePrint(self, "A screen name was not passed")
+            call.reject("You must pass a screen name")
+            CAPLog.print("A screen name was not passed")
             return
         }
     }
@@ -89,8 +89,8 @@ public class Firebase: CAPPlugin {
             if error == nil {
                 call.resolve([ "activated": true ])
             } else {
-                call.error("Error activating fetched remote config", error)
-                self.bridge.modulePrint(self, error!.localizedDescription)
+                call.reject("Error activating fetched remote config", nil, error)
+                CAPLog.print(error!.localizedDescription)
             }
         })
     }
@@ -100,8 +100,8 @@ public class Firebase: CAPPlugin {
             if status == .success {
                 call.resolve();
             } else {
-                call.error("Error fetching remote config", error);
-                self.bridge.modulePrint(self, "Error fetching remote config")
+                call.reject("Error fetching remote config", nil, error);
+                CAPLog.print("Error fetching remote config")
             }
         };
         let cache = call.getInt("cache");
@@ -119,8 +119,8 @@ public class Firebase: CAPPlugin {
             let configValueAsString = configValue != nil ? configValue!.stringValue : nil;
             call.resolve([ "value": configValueAsString != nil ? configValueAsString!: NSNull() ]);
         } else {
-            call.error("You must pass 'key'")
-            self.bridge.modulePrint(self, "You must pass 'key'")
+            call.reject("You must pass 'key'")
+            CAPLog.print("You must pass 'key'")
         }
     }
     
@@ -129,9 +129,9 @@ public class Firebase: CAPPlugin {
     @objc func getToken(_ call: CAPPluginCall) {
         Messaging.messaging().token { (token, error) in
             if let error = error {
-                call.error("Cant get token", error)
+                call.reject("Cant get token", nil, error)
             } else if let token = token {
-                call.success([ "token": token ])
+                call.resolve([ "token": token ])
             }
         }
     }
