@@ -8,12 +8,12 @@ import FirebaseMessaging
 
 @objc(Firebase)
 public class Firebase: CAPPlugin {
-    
+
     private static let DynamicLinkNotificationName = "dynamicLinkNotification"
-    
+
     var firebase: FirebaseApp? = nil;
     var remoteConfig: RemoteConfig? = nil;
-    
+
     public override func load() {
         if (FirebaseApp.app() == nil) {
             FirebaseApp.configure();
@@ -22,9 +22,9 @@ public class Firebase: CAPPlugin {
         }
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleDynamicLink(notification:)), name: Notification.Name(Firebase.DynamicLinkNotificationName), object: nil)
     }
-    
+
     // Firebase Analytics
-    
+
     @objc func logEvent(_ call: CAPPluginCall) {
         let name = call.getString("name");
         let parameters = call.getObject("parameters") ?? nil;
@@ -39,7 +39,7 @@ public class Firebase: CAPPlugin {
             return
         }
     }
-    
+
     @objc func setUserProperty(_ call: CAPPluginCall) {
         let name = call.getString("name");
         let value = call.getString("value");
@@ -54,7 +54,7 @@ public class Firebase: CAPPlugin {
             return
         }
     }
-    
+
     @objc func setUserId(_ call: CAPPluginCall) {
         let userId = call.getString("userId");
         DispatchQueue.main.async {
@@ -62,7 +62,7 @@ public class Firebase: CAPPlugin {
             call.resolve();
         }
     }
-    
+
     @objc func setScreenName(_ call: CAPPluginCall) {
         let screenName = call.getString("screenName");
         let screenClassOverride = call.getString("screenClassOverride");
@@ -81,9 +81,9 @@ public class Firebase: CAPPlugin {
             return
         }
     }
-    
+
     // Firebase Remote Config
-    
+
     @objc func activateFetched(_ call: CAPPluginCall) {
         self.remoteConfig?.activate(completion: { (changed, error) in
             if error == nil {
@@ -111,7 +111,7 @@ public class Firebase: CAPPlugin {
             self.remoteConfig?.fetch(completionHandler: completionHandler)
         }
     }
-    
+
     @objc func getRemoteConfigValue(_ call: CAPPluginCall) {
         let key = call.getString("key");
         if key != nil {
@@ -123,9 +123,9 @@ public class Firebase: CAPPlugin {
             CAPLog.print("You must pass 'key'")
         }
     }
-    
+
     // Firebase Messaging
-    
+
     @objc func getToken(_ call: CAPPluginCall) {
         Messaging.messaging().token { (token, error) in
             if let error = error {
@@ -135,9 +135,9 @@ public class Firebase: CAPPlugin {
             }
         }
     }
-    
+
     // Firebase Dynamic Deeplinks
-    
+
     @objc public static func handleOpenUrl(_ url: URL, _ options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
       if let dynamicLink = DynamicLinks.dynamicLinks().dynamicLink(fromCustomSchemeURL: url) {
           NotificationCenter.default.post(name: Notification.Name(Firebase.DynamicLinkNotificationName), object: dynamicLink)
@@ -145,7 +145,7 @@ public class Firebase: CAPPlugin {
       }
       return false
     }
-    
+
     @objc public static func handleContinueActivity(_ userActivity: NSUserActivity, _ restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
         if (userActivity.webpageURL == nil) { return false }
         let handled = DynamicLinks.dynamicLinks().handleUniversalLink(userActivity.webpageURL!) { (dynamicLink, error) in
