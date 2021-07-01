@@ -1,8 +1,8 @@
 
-import { PluginListenerHandle } from "@capacitor/core";
+import type { PluginListenerHandle } from "@capacitor/core";
 
 export interface FirebasePlugin {
-  logEvent(options: { name: string, parameters: object }): Promise<void>;
+  logEvent(options: { name: string, parameters: any }): Promise<void>;
   setUserProperty(options: { name: string, value: string }): Promise<void>;
   setUserId(options: { userId: string }): Promise<void>;
   setScreenName(options: { screenName: string, screenClassOverride?: string }): Promise<void>;
