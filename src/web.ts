@@ -1,58 +1,45 @@
 import { WebPlugin } from '@capacitor/core';
-import { FirebasePlugin } from './definitions';
+
+import type { FirebasePlugin } from './definitions';
 
 export class FirebaseWeb extends WebPlugin implements FirebasePlugin {
 
-  constructor() {
-    super({
-      name: 'Firebase',
-      platforms: ['web']
-    });
-  }
-
-  logEvent(options: { name: string; parameters: object; }): Promise<void> {
+  async logEvent(options: { name: string; parameters: any; }): Promise<void> {
     console.log(options);
-    return Promise.reject('Method not implemented.');
+    throw this.unimplemented('Not implemented on web.');
   }
 
-  setUserProperty(options: { name: string; value: string; }): Promise<void> {
+  async setUserProperty(options: { name: string; value: string; }): Promise<void> {
     console.log(options);
-    return Promise.reject('Method not implemented.');
+    throw this.unimplemented('Not implemented on web.');
   }
 
-  setUserId(options: { userId: string; }): Promise<void> {
+  async setUserId(options: { userId: string; }): Promise<void> {
     console.log(options);
-    return Promise.reject('Method not implemented.');
+    throw this.unimplemented('Not implemented on web.');
   }
 
-  setScreenName(options: { screenName: string; screenClassOverride?: string; }): Promise<void> {
+  async setScreenName(options: { screenName: string; screenClassOverride?: string; }): Promise<void> {
     console.log(options);
-    return Promise.reject('Method not implemented.');
+    throw this.unimplemented('Not implemented on web.');
   }
 
-  activateFetched(): Promise<{ activated: boolean; }> {
-    return Promise.reject('Method not implemented.');
+  async activateFetched(): Promise<{ activated: boolean; }> {
+    throw this.unimplemented('Not implemented on web.');
   }
 
-  fetch(options?: { cache?: number }): Promise<void> {
+  async fetch(options?: { cache?: number }): Promise<void> {
     console.log(options);
-    return Promise.reject('Method not implemented.');
+    throw this.unimplemented('Not implemented on web.');
   }
 
-  getRemoteConfigValue(options: { key: string; }): Promise<{ value: string; }> {
+  async getRemoteConfigValue(options: { key: string; }): Promise<{ value: string; }> {
     console.log(options);
-    return Promise.reject('Method not implemented.');
+    throw this.unimplemented('Not implemented on web.');
   }
 
-  getToken(): Promise<{ token: string; }> {
-    return Promise.reject('Method not implemented.');
+  async getToken(): Promise<{ token: string; }> {
+    throw this.unimplemented('Not implemented on web.');
   }
 
 }
-
-const Firebase = new FirebaseWeb();
-
-export { Firebase };
-
-import { registerWebPlugin } from '@capacitor/core';
-registerWebPlugin(Firebase);

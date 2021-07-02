@@ -1,5 +1,14 @@
-import { WebPlugin } from '@capacitor/core';
-export class FirebaseWeb extends WebPlugin {
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var core = require('@capacitor/core');
+
+const Firebase = core.registerPlugin('Firebase', {
+    web: () => Promise.resolve().then(function () { return web; }).then(m => new m.FirebaseWeb()),
+});
+
+class FirebaseWeb extends core.WebPlugin {
     logEvent(options) {
         console.log(options);
         return Promise.reject('Method not implemented.');
@@ -31,4 +40,11 @@ export class FirebaseWeb extends WebPlugin {
         return Promise.reject('Method not implemented.');
     }
 }
-//# sourceMappingURL=web.js.map
+
+var web = /*#__PURE__*/Object.freeze({
+    __proto__: null,
+    FirebaseWeb: FirebaseWeb
+});
+
+exports.Firebase = Firebase;
+//# sourceMappingURL=plugin.cjs.js.map

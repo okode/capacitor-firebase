@@ -9,10 +9,11 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.getcapacitor.JSObject;
-import com.getcapacitor.NativePlugin;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
+import com.getcapacitor.annotation.CapacitorPlugin;
+import com.getcapacitor.annotation.Permission;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,11 +32,11 @@ import java.util.Iterator;
 
 import static android.content.ContentValues.TAG;
 
-@NativePlugin(
+@CapacitorPlugin(
     permissions = {
-        Manifest.permission.ACCESS_NETWORK_STATE,
-        Manifest.permission.INTERNET,
-        Manifest.permission.WAKE_LOCK
+        @Permission(strings = { Manifest.permission.ACCESS_NETWORK_STATE }, alias = "accessNetPermission" ),
+        @Permission(strings = { Manifest.permission.INTERNET }, alias = "internetPermission" ),
+        @Permission(strings = { Manifest.permission.WAKE_LOCK }, alias = "wakeLockPermission" )
     }
 )
 public class Firebase extends Plugin {
@@ -90,7 +91,7 @@ public class Firebase extends Plugin {
         }
 
         firebaseAnalytics.logEvent(eventName, bundle);
-        call.success();
+        call.resolve();
     }
 
 
@@ -100,7 +101,7 @@ public class Firebase extends Plugin {
         final String value = call.getString("value");
         if (name != null) {
             firebaseAnalytics.setUserProperty(name, value);
-            call.success();
+            call.resolve();
         } else {
             call.reject("key 'name' does not exist");
         }
@@ -110,7 +111,7 @@ public class Firebase extends Plugin {
     public void setUserId(PluginCall call) {
         final String userId = call.getString("userId");
         firebaseAnalytics.setUserId(userId);
-        call.success();
+        call.resolve();
     }
 
     @PluginMethod()
@@ -126,7 +127,7 @@ public class Firebase extends Plugin {
                 firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, bundle);
             }
         });
-        call.success();
+        call.resolve();
     }
 
     // Firebase Remote Config
@@ -139,12 +140,12 @@ public class Firebase extends Plugin {
                 public void onSuccess(Boolean activated) {
                 final JSObject res = new JSObject();
                 res.put("activated", activated);
-                call.success(res);
+                call.resolve(res);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                call.error("Error activating fetched remote config");
+                call.reject("Error activating fetched remote config");
                 }
             });
     }
@@ -167,12 +168,12 @@ public class Firebase extends Plugin {
         fetchTask.addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                    call.success();
+                    call.resolve();
                 }
             }).addOnFailureListener(new OnFailureListener() {
         @Override
         public void onFailure(@NonNull Exception e) {
-                    call.error("Error fetching remote config");
+                    call.reject("Error fetching remote config");
                 }
             });
     }
@@ -184,7 +185,7 @@ public class Firebase extends Plugin {
             FirebaseRemoteConfigValue configValue = FirebaseRemoteConfig.getInstance().getValue(key);
             final JSObject res = new JSObject();
             res.put("value", configValue.asString());
-            call.success(res);
+            call.resolve(res);
         } else {
             call.reject("You must pass 'key'");
         }
@@ -198,13 +199,13 @@ public class Firebase extends Plugin {
             @Override
             public void onComplete(@NonNull Task<String> task) {
                 if (!task.isSuccessful()) {
-                    call.error("Cant get token", task.getException());
+                    call.reject("Cant get token", task.getException());
                     return;
                 }
                 String token = task.getResult();
                 final JSObject res = new JSObject();
                 res.put("token", token);
-                call.success(res);
+                call.resolve(res);
             }
         });
     }

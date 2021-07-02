@@ -1,9 +1,4 @@
 import { PluginListenerHandle } from "@capacitor/core";
-declare module '@capacitor/core' {
-    interface PluginRegistry {
-        Firebase: FirebasePlugin;
-    }
-}
 export interface FirebasePlugin {
     logEvent(options: {
         name: string;
