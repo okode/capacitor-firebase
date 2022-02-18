@@ -6,35 +6,38 @@ var capacitorExitApp = (function (exports, core) {
     });
 
     class FirebaseWeb extends core.WebPlugin {
-        logEvent(options) {
+        async logEvent(options) {
             console.log(options);
-            return Promise.reject('Method not implemented.');
+            throw this.unimplemented('Not implemented on web.');
         }
-        setUserProperty(options) {
+        async setUserProperty(options) {
             console.log(options);
-            return Promise.reject('Method not implemented.');
+            throw this.unimplemented('Not implemented on web.');
         }
-        setUserId(options) {
+        async setUserId(options) {
             console.log(options);
-            return Promise.reject('Method not implemented.');
+            throw this.unimplemented('Not implemented on web.');
         }
-        setScreenName(options) {
+        async setScreenName(options) {
             console.log(options);
-            return Promise.reject('Method not implemented.');
+            throw this.unimplemented('Not implemented on web.');
         }
-        activateFetched() {
-            return Promise.reject('Method not implemented.');
+        async getAppInstanceID() {
+            throw this.unimplemented('Not implemented on web.');
         }
-        fetch(options) {
+        async activateFetched() {
+            throw this.unimplemented('Not implemented on web.');
+        }
+        async fetch(options) {
             console.log(options);
-            return Promise.reject('Method not implemented.');
+            throw this.unimplemented('Not implemented on web.');
         }
-        getRemoteConfigValue(options) {
+        async getRemoteConfigValue(options) {
             console.log(options);
-            return Promise.reject('Method not implemented.');
+            throw this.unimplemented('Not implemented on web.');
         }
-        getToken() {
-            return Promise.reject('Method not implemented.');
+        async getToken() {
+            throw this.unimplemented('Not implemented on web.');
         }
     }
 

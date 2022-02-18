@@ -130,6 +130,22 @@ public class Firebase extends Plugin {
         call.resolve();
     }
 
+    @PluginMethod()
+    public void getAppInstanceID(PluginCall call) {
+        firebaseAnalytics.getAppInstanceId().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if (task.isSuccessful()) {
+                    final JSObject res = new JSObject();
+                    res.put("value", task.getResult());
+                    call.resolve(res);
+                } else {
+                    call.reject("Error getting app instance ID");
+                }
+            }
+        });
+    }
+
     // Firebase Remote Config
 
     @PluginMethod()
