@@ -3,7 +3,7 @@ import type { FirebasePlugin } from './definitions';
 export declare class FirebaseWeb extends WebPlugin implements FirebasePlugin {
     logEvent(options: {
         name: string;
-        parameters: object;
+        parameters: any;
     }): Promise<void>;
     setUserProperty(options: {
         name: string;
@@ -16,6 +16,9 @@ export declare class FirebaseWeb extends WebPlugin implements FirebasePlugin {
         screenName: string;
         screenClassOverride?: string;
     }): Promise<void>;
+    getAppInstanceID(): Promise<{
+        value: string;
+    }>;
     activateFetched(): Promise<{
         activated: boolean;
     }>;
