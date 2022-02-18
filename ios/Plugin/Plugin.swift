@@ -82,6 +82,11 @@ public class Firebase: CAPPlugin {
         }
     }
 
+    @objc func getAppInstanceID(_ call: CAPPluginCall) {
+        let appInstanceId = Analytics.appInstanceID();
+        call.resolve([ "value": appInstanceId != nil ? appInstanceId! : NSNull() ]);
+    }
+
     // Firebase Remote Config
 
     @objc func activateFetched(_ call: CAPPluginCall) {

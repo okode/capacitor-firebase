@@ -8,6 +8,7 @@ CAP_PLUGIN(Firebase, "Firebase",
            CAP_PLUGIN_METHOD(setUserProperty, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(setUserId, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(setScreenName, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(getAppInstanceID, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(activateFetched, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(fetch, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getRemoteConfigValue, CAPPluginReturnPromise);

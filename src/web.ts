@@ -24,6 +24,10 @@ export class FirebaseWeb extends WebPlugin implements FirebasePlugin {
     throw this.unimplemented('Not implemented on web.');
   }
 
+  async getAppInstanceID(): Promise<{ value: string; }> {
+    throw this.unimplemented('Not implemented on web.');
+  }
+
   async activateFetched(): Promise<{ activated: boolean; }> {
     throw this.unimplemented('Not implemented on web.');
   }
