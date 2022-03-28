@@ -5,11 +5,11 @@ def capacitor_pods
   use_frameworks!
   pod 'Capacitor', :path => '../node_modules/@capacitor/ios'
   pod 'CapacitorCordova', :path => '../node_modules/@capacitor/ios'
-  pod 'Firebase/RemoteConfig', '7.2.0'
-  pod 'Firebase/Messaging', '7.2.0'
-  pod 'Firebase/Analytics', '7.2.0'
-  pod 'Firebase/DynamicLinks', '7.2.0'
-  pod 'Firebase/Crashlytics', '7.2.0'
+  pod 'Firebase/RemoteConfig', '8.14.0'
+  pod 'Firebase/Messaging', '8.14.0'
+  pod 'Firebase/Analytics', '8.14.0'
+  pod 'Firebase/DynamicLinks', '8.14.0'
+  pod 'Firebase/Crashlytics', '8.14.0'
 end
 
 target 'Plugin' do
