@@ -1,6 +1,6 @@
 {
   "name": "capacitor-firebase",
-  "version": "2.1.0",
+  "version": "2.1.2",
   "description": "Capacitor plugin to integrate Firebase in an Ionic application",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
