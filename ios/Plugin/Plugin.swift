@@ -11,15 +11,13 @@ public class Firebase: CAPPlugin {
 
     private static let DynamicLinkNotificationName = "dynamicLinkNotification"
 
-    var firebase: FirebaseApp? = nil;
     var remoteConfig: RemoteConfig? = nil;
 
     public override func load() {
         if (FirebaseApp.app() == nil) {
             FirebaseApp.configure();
-            firebase = FirebaseApp.app()
-            remoteConfig = RemoteConfig.remoteConfig();
         }
+        remoteConfig = RemoteConfig.remoteConfig();
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleDynamicLink(notification:)), name: Notification.Name(Firebase.DynamicLinkNotificationName), object: nil)
     }
 
