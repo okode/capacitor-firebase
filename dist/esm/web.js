@@ -33,5 +33,9 @@ export class FirebaseWeb extends WebPlugin {
     async getToken() {
         throw this.unimplemented('Not implemented on web.');
     }
+    async setDefaults(options) {
+        console.log(options);
+        throw this.unimplemented('Not implemented on web.');
+    }
 }
 //# sourceMappingURL=web.js.map

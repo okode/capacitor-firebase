@@ -33,4 +33,7 @@ export declare class FirebaseWeb extends WebPlugin implements FirebasePlugin {
     getToken(): Promise<{
         token: string;
     }>;
+    setDefaults(options: {
+        defaults: Record<string, any>;
+    }): Promise<void>;
 }
