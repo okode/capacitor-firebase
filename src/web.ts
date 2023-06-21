@@ -46,4 +46,9 @@ export class FirebaseWeb extends WebPlugin implements FirebasePlugin {
     throw this.unimplemented('Not implemented on web.');
   }
 
+  async setDefaults(options: { defaults: Record<string, any>; }): Promise<void> {
+    console.log(options);
+    throw this.unimplemented('Not implemented on web.');
+  }
+
 }

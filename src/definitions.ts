@@ -12,6 +12,7 @@ export interface FirebasePlugin {
   fetch(options?: { cache?: number }): Promise<void>;
   getRemoteConfigValue(options: { key: string }): Promise<{value: string}>;
   getToken(): Promise<{token: string}>;
+  setDefaults(options: { defaults: Record<string, any> }): Promise<void>;
   addListener(eventName: 'dynamicDeeplinkOpen', listenerFunc: (action: DynamicDeeplinkOpen) => void): PluginListenerHandle;
 }
 

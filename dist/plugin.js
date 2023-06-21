@@ -39,6 +39,10 @@ var capacitorExitApp = (function (exports, core) {
         async getToken() {
             throw this.unimplemented('Not implemented on web.');
         }
+        async setDefaults(options) {
+            console.log(options);
+            throw this.unimplemented('Not implemented on web.');
+        }
     }
 
     var web = /*#__PURE__*/Object.freeze({
@@ -52,5 +56,5 @@ var capacitorExitApp = (function (exports, core) {
 
     return exports;
 
-}({}, capacitorExports));
+})({}, capacitorExports);
 //# sourceMappingURL=plugin.js.map

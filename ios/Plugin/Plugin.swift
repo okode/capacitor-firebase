@@ -34,7 +34,6 @@ public class Firebase: CAPPlugin {
         } else {
             call.reject("You must pass an event name.")
             CAPLog.print("An event name and value was not passed.")
-            return
         }
     }
 
@@ -49,7 +48,6 @@ public class Firebase: CAPPlugin {
         } else {
             call.reject("You must pass a User Property name")
             CAPLog.print("A user property name was not passed.")
-            return
         }
     }
 
@@ -76,7 +74,6 @@ public class Firebase: CAPPlugin {
         } else {
             call.reject("You must pass a screen name")
             CAPLog.print("A screen name was not passed")
-            return
         }
     }
 
@@ -136,6 +133,23 @@ public class Firebase: CAPPlugin {
             } else if let token = token {
                 call.resolve([ "token": token ])
             }
+        }
+    }
+    
+    @objc func setDefaults(_ call: CAPPluginCall) {
+        let defaults = call.getObject("defaults") ?? nil
+        if defaults == nil {
+            call.reject("You must pass 'defaults' parameter.")
+            CAPLog.print("You must pass 'defaults' parameter.")
+            return
+        }
+        
+        if let defaultsAsMap = defaults as? [String:NSObject] {
+            self.remoteConfig?.setDefaults(defaultsAsMap)
+            call.resolve();
+        } else {
+            call.reject("Invalid 'defaults' value")
+            CAPLog.print("Invalid 'defaults' value")
         }
     }
 

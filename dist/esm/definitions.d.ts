@@ -32,6 +32,9 @@ export interface FirebasePlugin {
     getToken(): Promise<{
         token: string;
     }>;
+    setDefaults(options: {
+        defaults: Record<string, any>;
+    }): Promise<void>;
     addListener(eventName: 'dynamicDeeplinkOpen', listenerFunc: (action: DynamicDeeplinkOpen) => void): PluginListenerHandle;
 }
 export interface DynamicDeeplinkOpen {

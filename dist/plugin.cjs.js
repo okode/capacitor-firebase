@@ -42,6 +42,10 @@ class FirebaseWeb extends core.WebPlugin {
     async getToken() {
         throw this.unimplemented('Not implemented on web.');
     }
+    async setDefaults(options) {
+        console.log(options);
+        throw this.unimplemented('Not implemented on web.');
+    }
 }
 
 var web = /*#__PURE__*/Object.freeze({

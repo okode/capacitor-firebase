@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -25,10 +26,13 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigValue;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import static android.content.ContentValues.TAG;
 
@@ -63,31 +67,12 @@ public class Firebase extends Plugin {
         }
 
         // Preparing event bundle
-        Bundle bundle = new Bundle();
-        if (params != null) {
-            try {
-                Iterator<String> keys = params.keys();
-                while (keys.hasNext()) {
-                    String key = keys.next();
-                    Object value = params.get(key);
-
-                    if (value instanceof String) {
-                        bundle.putString(key, (String) value);
-                    } else if (value instanceof Integer) {
-                        bundle.putInt(key, (Integer) value);
-                    } else if (value instanceof Double) {
-                        bundle.putDouble(key, (Double) value);
-                    } else if (value instanceof Long) {
-                        bundle.putLong(key, (Long) value);
-                    } else if (value != null) {
-                        bundle.putString(key, value.toString());
-                    } else {
-                        call.reject("Value for key " + key + " cannot be NULL");
-                    }
-                }
-            } catch (JSONException e) {
-                call.reject(e.getLocalizedMessage(), e);
-            }
+        Bundle bundle = null;
+        try {
+            bundle = AnalyticsMapper.convertEventParamsToBundle(params);
+        } catch (JSONException e) {
+            call.reject(e.getLocalizedMessage(), e);
+            return;
         }
 
         firebaseAnalytics.logEvent(eventName, bundle);
@@ -161,7 +146,7 @@ public class Firebase extends Plugin {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                call.reject("Error activating fetched remote config");
+                call.reject("Error activating fetched remote config", e);
                 }
             });
     }
@@ -189,7 +174,7 @@ public class Firebase extends Plugin {
             }).addOnFailureListener(new OnFailureListener() {
         @Override
         public void onFailure(@NonNull Exception e) {
-                    call.reject("Error fetching remote config");
+                    call.reject("Error fetching remote config", e);
                 }
             });
     }
@@ -204,6 +189,34 @@ public class Firebase extends Plugin {
             call.resolve(res);
         } else {
             call.reject("You must pass 'key'");
+        }
+    }
+
+    @PluginMethod()
+    public void setDefaults(PluginCall call) {
+        final JSObject defaults = call.getObject("defaults");
+        if (defaults != null) {
+            Map<String, Object> defaultsAsMap = null;
+            try {
+                defaultsAsMap = RemoteConfigMapper.convertDefaultsToMap(defaults);
+            } catch (JSONException e) {
+                call.reject("Error converting JSObject to Map", e);
+                return;
+            }
+            FirebaseRemoteConfig.getInstance().setDefaultsAsync(defaultsAsMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        call.resolve();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        call.reject("Error setting defaults", e);
+                    }
+                });
+        } else {
+            call.reject("You must pass 'defaults'");
         }
     }
 
