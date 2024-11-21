@@ -96,19 +96,25 @@ public class Firebase: CAPPlugin {
     }
 
     @objc func fetch(_ call: CAPPluginCall) {
-        let completionHandler: RemoteConfigFetchCompletion =  { (status, error) in
-            if status == .success {
-                call.resolve();
-            } else {
-                call.reject("Error fetching remote config", nil, error);
-                CAPLog.print("Error fetching remote config")
-            }
-        };
         let cache = call.getInt("cache");
         if let cache = cache {
-            self.remoteConfig?.fetch(withExpirationDuration: TimeInterval(cache), completionHandler: completionHandler)
+            self.remoteConfig?.fetch(withExpirationDuration: TimeInterval(cache), completionHandler: { (status, error) in
+                if status == .success {
+                    call.resolve();
+                } else {
+                    call.reject("Error fetching remote config", nil, error);
+                    CAPLog.print("Error fetching remote config")
+                }
+            })
         } else {
-            self.remoteConfig?.fetch(completionHandler: completionHandler)
+            self.remoteConfig?.fetch(completionHandler: { (status, error) in
+                if status == .success {
+                    call.resolve();
+                } else {
+                    call.reject("Error fetching remote config", nil, error);
+                    CAPLog.print("Error fetching remote config")
+                }
+            })
         }
     }
 
